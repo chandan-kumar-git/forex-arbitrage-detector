@@ -11,7 +11,36 @@ over TCP sockets.
 Everything is Java: Spring Boot (core only), Java Swing, JDBC and `java.net` sockets.
 There is no web page, no HTML and no web server in this project.
 
-![Dashboard](docs/screenshots/cap5-dashboard.png)
+![Dashboard: live network graph of currencies with the detected arbitrage loop](docs/screenshots/cap5-dashboard.png)
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/cap5-history.png" alt="History"></td>
+    <td width="50%"><img src="docs/screenshots/cap5-opportunity-details.png" alt="Opportunity details"></td>
+  </tr>
+  <tr>
+    <td><b>History.</b> Every opportunity saved in MySQL, with filters by period, minimum profit and currency.</td>
+    <td><b>Opportunity details.</b> Each leg of the loop with its rate, the fee and the profit of the whole cycle.</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/cap5-feed-socket-connected.png" alt="Socket feed connected"></td>
+    <td><img src="docs/screenshots/cap5-server-window.png" alt="Rate Feed Server window"></td>
+  </tr>
+  <tr>
+    <td><b>Socket feed.</b> The desktop connected to the Rate Feed Server, with the protocol log.</td>
+    <td><b>Rate Feed Server.</b> Broadcasts one rate snapshot per second to every connected desktop.</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/cap5-currencies.png" alt="Currencies"></td>
+    <td><img src="docs/screenshots/cap5-settings.png" alt="Settings"></td>
+  </tr>
+  <tr>
+    <td><b>Currencies.</b> Activate or deactivate currencies; at least three are needed for a loop.</td>
+    <td><b>Settings.</b> Fee, spread and the chance of injecting a wrong rate per tick, plus the MySQL connection check.</td>
+  </tr>
+</table>
+
+There is also an interactive 3D walkthrough of this system: [model-analysis-for-the-arbitage-system-](https://github.com/Chandankumar775/model-analysis-for-the-arbitage-system-) ([live](https://model-analysis-for-the-arbitage-sys.vercel.app)).
 
 ## The two programs
 
@@ -144,12 +173,3 @@ More detail: [docs/USER_MANUAL.md](docs/USER_MANUAL.md), [docs/ARCHITECTURE.md](
 | `mvn` is not recognized | Maven is not on the PATH | Use `.\mvnw.cmd`, or run from IntelliJ |
 | "JAVA_HOME is not set" | Maven cannot find the JDK | Set `JAVA_HOME` as shown above |
 | No arbitrage appears | Inject chance is 0 %, or the fee is too high, or fewer than 3 active currencies | Settings → **Reset defaults**; Currencies → activate at least 3 |
-
-## Suggested Git commits
-
-```
-git init
-git add .
-git commit -m "feat: CAP-1 to CAP-5 - engine, Swing GUI, JDBC, socket feed"
-git tag cap-5
-```
