@@ -14,7 +14,7 @@ Never start CAP-6/7/8 work (Servlet, JSP, sessions, login, Hibernate, REST).
 ## M0 — Project skeleton (½ day)
 
 - [ ] Maven project `com.arbitrage:arbitrage:1.0.0`, Java 17, parent `spring-boot-starter-parent` 3.3.x.
-- [ ] Dependencies exactly as in `CLAUDE.md` (add `mysql-connector-j` now, scope `runtime`; it is unused until M5).
+- [ ] Dependencies exactly as in `pom.xml` (add `mysql-connector-j` now, scope `runtime`; it is unused until M5).
 - [ ] Package folders from `03_TECHNICAL_SPEC.md §3` (only create files when a milestone needs them).
 - [ ] `application.properties` from §9 with `db.password=CHANGE_ME`. `.gitignore` for `target/`, IDE files.
 - [ ] `README.md` stub: what it is, how to run.

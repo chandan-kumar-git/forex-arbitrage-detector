@@ -7,7 +7,7 @@ Each one has the reason, so it can be explained in the viva.
 
 | # | Decision | Why |
 |---|---|---|
-| 1 | Project root is the folder that already held `CLAUDE.md`, `docs/` and `sql/` | The spec pack says to unzip into the project folder; nothing had to be copied |
+| 1 | Project root is the folder that already held `docs/` and `sql/` | The spec pack says to unzip into the project folder; nothing had to be copied |
 | 2 | `spring-boot-starter-parent` **3.3.13** | Last release of the 3.3.x line the spec asks for |
 | 3 | `<start-class>` in `pom.xml` points to `ArbitrageApplication` | The project has two `main` methods; `mvn spring-boot:run` needs to know which one |
 | 4 | A Maven wrapper (`mvnw.cmd`, `.mvn/`) is included | Maven was not installed on the development laptop; the wrapper lets anyone build |

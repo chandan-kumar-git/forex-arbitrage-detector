@@ -102,4 +102,4 @@ The left sidebar switches screens (CardLayout). The top bar is always visible.
 - No UI freeze over 100 ms. All DB and network work happens off the EDT.
 - Minimum window 1100×700, default 1280×800. Text never clips at that size.
 - All user input is validated before use; all SQL uses PreparedStatement.
-- Code is readable by a second-year student; see the simplicity rules in `CLAUDE.md`.
+- Code is readable by a second-year student; see the simplicity rules in `docs/03_TECHNICAL_SPEC.md`.
