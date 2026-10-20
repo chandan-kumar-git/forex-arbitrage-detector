@@ -1,6 +1,6 @@
 # Architecture (short version)
 
-The full specs are `03_TECHNICAL_SPEC.md`, `05_DATABASE_SPEC.md` and `06_NETWORKING_SPEC.md`.
+This page is the reference for the code structure, database and networking design.
 This page is the summary to explain the project from.
 
 ## 1. Layers

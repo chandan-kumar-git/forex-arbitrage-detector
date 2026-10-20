@@ -9,7 +9,7 @@ Use this table during the demo. Each rubric line has the feature that earns it, 
 |---|---|---|---|
 | Conceptual understanding (OOP, Collections) | 5 | Records, an interface with two implementations, the collections table | `model/Currency.java`, `model/RateSnapshot.java`, `feed/RateProvider.java`, `docs/DECISIONS.md` §4 |
 | Problem identification | 5 | Proposal §1: inconsistent rates → profitable loops that vanish quickly | `docs/01_PROJECT_PROPOSAL.md` |
-| Project planning | 5 | Proposal §6 milestones + build plan | `docs/01_PROJECT_PROPOSAL.md`, `docs/07_BUILD_PLAN.md` |
+| Project planning | 5 | Proposal §6 milestones + build plan | `docs/01_PROJECT_PROPOSAL.md` |
 | Presentation & justification | 5 | Why Bellman-Ford (finds negative cycles, works for loops longer than 3), why −log(rate) | `engine/BellmanFordDetector.java`, `engine/GraphBuilder.java`, `docs/ARCHITECTURE.md` §3 |
 
 Tests to run for CAP-1: `BellmanFordDetectorTest`, `ProfitCalculatorTest` (the 0.3472 % reference case),
