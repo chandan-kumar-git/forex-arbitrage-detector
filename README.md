@@ -40,7 +40,7 @@ There is no web page, no HTML and no web server in this project.
   </tr>
 </table>
 
-There is also an interactive 3D walkthrough of this system: [model-analysis-for-the-arbitage-system-](https://github.com/Chandankumar775/arbitrage-detector-3d) ([live](https://model-analysis-for-the-arbitage-sys.vercel.app)).
+There is also an interactive 3D walkthrough of this system: [model-analysis-for-the-arbitage-system-](https://github.com/chandan-kumar-git/arbitrage-detector-3d) ([live](https://model-analysis-for-the-arbitage-sys.vercel.app)).
 
 ## The two programs
 
