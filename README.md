@@ -1,4 +1,4 @@
-# Forex Arbitrage Detector
+<img src="docs/brand/wordmark.webp" alt="Forex Arbitrage Detector" width="100%">
 
 **Bellman-Ford Triangular Arbitrage Detector and Real-time Forex Network Visualizer**
 Advanced Java (Project-Based Learning), CAP-1 to CAP-5.
@@ -40,7 +40,7 @@ There is no web page, no HTML and no web server in this project.
   </tr>
 </table>
 
-There is also an interactive 3D walkthrough of this system: [model-analysis-for-the-arbitage-system-](https://github.com/Chandankumar775/model-analysis-for-the-arbitage-system-) ([live](https://model-analysis-for-the-arbitage-sys.vercel.app)).
+There is also an interactive 3D walkthrough of this system: [model-analysis-for-the-arbitage-system-](https://github.com/Chandankumar775/arbitrage-detector-3d) ([live](https://model-analysis-for-the-arbitage-sys.vercel.app)).
 
 ## The two programs
 
