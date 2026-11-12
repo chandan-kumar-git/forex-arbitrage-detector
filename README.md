@@ -42,6 +42,38 @@ There is no web page, no HTML and no web server in this project.
 
 There is also an interactive 3D walkthrough of this system: [model-analysis-for-the-arbitage-system-](https://github.com/chandan-kumar-git/arbitrage-detector-3d) ([live](https://model-analysis-for-the-arbitage-sys.vercel.app)).
 
+## Web portal (CAP-6) and REST API (CAP-7)
+
+While the desktop app runs, the same Spring Boot program also starts an embedded Tomcat on
+`http://127.0.0.1:8080` (localhost only):
+
+- **Portal** `/portal`: Servlets + JSP (MVC), login with sessions, cookies, a filter and a listener.
+  Pages: dashboard (live), Send money, history (JDBC), opportunity details (JPA), alerts, currencies, rubric map.
+  Demo login: `demo` / `demo1234` (created on first start), or register a new account.
+- **REST API** `/api/v1/...`: Spring Data JPA (Hibernate) + `@RestController` with full CRUD, validation and
+  JSON errors. The full list is in [docs/RUBRIC_GUIDE.md](docs/RUBRIC_GUIDE.md).
+- **Real-life feature:** `/portal/route` (and `/api/v1/route`) finds the cheapest way to change money,
+  for example INR → USD → JPY instead of INR → JPY, and shows how much it saves.
+
+## Web version (landing page + live desk)
+
+`web/` holds a React + TypeScript web app with the same algorithm, ported to TypeScript: a landing page with
+an interactive transfer calculator, and a desk with Live, **Send money**, Events, Replay (Bellman-Ford step by
+step), Currencies, Lab, Analysis and Settings (with profit alerts and browser notifications).
+
+It runs entirely in the browser, so it deploys to Vercel as static files (`vercel.json` at the repo root is
+ready: import the repository in Vercel and deploy, no settings needed).
+
+```
+cd web
+npm install
+npm run dev      # http://localhost:5173
+npm test         # 14 engine tests
+npm run build    # static files in web/dist
+```
+
+**Watching the Java engine from the web desk:** in the desk choose **Settings → Data source → Java engine**.
+Rates then come from Spring Boot (`GET /api/state`) and the browser re-runs Bellman-Ford on each snapshot.
 ## The two programs
 
 | Program | Main class | What it does |
@@ -134,7 +166,7 @@ java -cp "target/classes;$(Get-Content cp.txt)" com.arbitrage.server.FeedServerA
 
 ```
 mvn -q compile        compile
-mvn test              31 unit tests, no MySQL needed
+mvn test              42 unit tests, no MySQL needed
 mvn spring-boot:run   start the desktop app
 ```
 
@@ -154,7 +186,10 @@ src/main/java/com/arbitrage/
   service/                      StartupService, CurrencyService
   server/                       the Rate Feed Server program
   ui/                           MainWindow, Sidebar, TopBar, theme/, screens/
-src/test/java/com/arbitrage/    6 test classes
+  api/                          tiny JSON API for the web desk (JDK HttpServer)
+src/test/java/com/arbitrage/    7 test classes
+web/                            React + TypeScript web app (landing page and live desk)
+  src/engine/                   the algorithm ported to TypeScript, with Vitest tests
 docs/                           specs, USER_MANUAL, ARCHITECTURE, DECISIONS, screenshots
 ```
 

@@ -1,5 +1,6 @@
 package com.arbitrage.service;
 
+import com.arbitrage.cap6.auth.UserDao;
 import com.arbitrage.config.AppSettings;
 import com.arbitrage.db.CurrencyDao;
 import com.arbitrage.db.DatabaseConnection;
@@ -32,10 +33,11 @@ public class StartupService {
     private final DatabaseInitializer initializer;
     private final SettingsDao settingsDao;
     private final CurrencyDao currencyDao;
+    private final UserDao userDao;
 
     public StartupService(AppSettings settings, CurrencyService currencyService, TickScheduler tickScheduler,
                           DatabaseConnection database, DatabaseInitializer initializer,
-                          SettingsDao settingsDao, CurrencyDao currencyDao) {
+                          SettingsDao settingsDao, CurrencyDao currencyDao, UserDao userDao) {
         this.settings = settings;
         this.currencyService = currencyService;
         this.tickScheduler = tickScheduler;
@@ -43,6 +45,7 @@ public class StartupService {
         this.initializer = initializer;
         this.settingsDao = settingsDao;
         this.currencyDao = currencyDao;
+        this.userDao = userDao;
     }
 
     public void start() {
@@ -65,6 +68,7 @@ public class StartupService {
         long millis = database.test();
         initializer.createTables();
         initializer.seedIfEmpty();
+        userDao.seedDemoUserIfEmpty();             // CAP-6: demo / demo1234 for the portal
         applySettings(settingsDao.loadAll());
         currencyService.load(currencyDao.findAll());
         return millis;

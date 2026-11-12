@@ -126,3 +126,21 @@ All are small and exist to keep other classes short.
 - Two JVMs for the socket demo: server window + desktop + a second client; same snapshots on both
   clients; server stop → dialog; wrong port → error in under 2 s; port in use → message in the server window.
 - Screenshots in `docs/screenshots/` were taken from the real windows at 1280×800 and 1100×700.
+
+## 9. Web frontend (added after CAP-5, at the student's request)
+
+The student later asked for a web frontend and a landing page that can be shared as a live link (Vercel),
+explicitly allowing HTML, CSS, JavaScript and React. The Java Swing app stays exactly as it was for the course;
+the web app is an addition in its own folder.
+
+| # | Decision | Why |
+|---|---|---|
+| 1 | `web/` is a React + Vite + TypeScript app, built to static files | Vercel hosts static files for free; no server is needed |
+| 2 | The algorithm is ported line for line to TypeScript (`web/src/engine/`) | A static page cannot run Java; the port keeps the same rules (−log weights, virtual source, n rounds, walk back n steps) and is checked by 12 Vitest tests, including the 0.3472 % reference case |
+| 3 | The Java app gets a small HTTP bridge (`api/ApiServer`, `api/StateWriter`, `api/Json`) on `127.0.0.1:8080` | Lets the web desk read the Java engine live. Uses the JDK's built-in `com.sun.net.httpserver.HttpServer` and hand-written JSON, so no new Maven dependency; it listens on the loopback address only |
+| 4 | Endpoints: `GET /api/state`, `POST /api/pause?paused=true|false` | Read-mostly; pause is the only write and is harmless. CORS `*` because the page may be served from Vercel or `localhost:5173` |
+| 5 | In Java mode the browser re-runs Bellman-Ford on each Java snapshot | So every Java-fed loop can still be replayed step by step, and the two engines can be compared side by side |
+| 6 | Per-leg "edge" = ln(rate × (1 − fee)) + ln(mid(to)) − ln(mid(from)), mid = √(rate to USD ÷ rate from USD) | A leg's raw rate (161 JPY per EUR) means nothing alone. Against the fair mid price, a fair leg costs exactly spread + fee and the mispriced leg carries the gain; the edges add up exactly to the loop's profit |
+| 7 | Detect time is measured by repeating detection for ≥ 0.5 ms and dividing | Browsers round `performance.now()` to 5–100 µs, coarser than one detection |
+| 8 | Events, currencies and settings are kept in the browser's localStorage (newest 500 events) | No backend on Vercel; MySQL stays the Java app's store |
+| 9 | Visual style: a light "metro map" (currencies are stations, the loop is one bold blue line) | A first dark, neon "event display" style was rejected by the student as too busy; the redesign is light, calm and projector-friendly, with one line colour and green only for profit. Colours and fonts live as CSS variables in `web/src/styles/base.css` |

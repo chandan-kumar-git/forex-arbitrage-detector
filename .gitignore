@@ -21,3 +21,14 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Web frontend
+web/node_modules/
+web/dist/
+*.tsbuildinfo
+
+# AI design-tool files: kept on this computer only, not in the repository
+.impeccable/
+PRODUCT.md
+DESIGN.md
+CLAUDE.md

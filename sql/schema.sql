@@ -50,3 +50,30 @@ CREATE TABLE IF NOT EXISTS app_setting (
     updated_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (setting_key)
 );
+
+-- CAP-6: users of the Servlet/JSP portal
+CREATE TABLE IF NOT EXISTS app_user (
+    id             BIGINT       NOT NULL AUTO_INCREMENT,
+    username       VARCHAR(40)  NOT NULL,
+    password_hash  VARCHAR(200) NOT NULL,
+    display_name   VARCHAR(60)  NOT NULL,
+    created_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_login_at  TIMESTAMP    NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_app_user_username (username)
+);
+
+-- CAP-7: profit alerts (JPA entity ProfitAlert)
+CREATE TABLE IF NOT EXISTS profit_alert (
+    id                 BIGINT         NOT NULL AUTO_INCREMENT,
+    owner              VARCHAR(40)    NOT NULL,
+    min_profit         DECIMAL(10, 6) NOT NULL,
+    currency_code      CHAR(3)        NULL,
+    active             BOOLEAN        NOT NULL DEFAULT TRUE,
+    trigger_count      INT            NOT NULL DEFAULT 0,
+    last_triggered_at  DATETIME(3)    NULL,
+    last_path          VARCHAR(120)   NULL,
+    created_at         TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    CONSTRAINT chk_alert_profit CHECK (min_profit >= 0)
+);

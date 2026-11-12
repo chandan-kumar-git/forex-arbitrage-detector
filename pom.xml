@@ -15,7 +15,7 @@
     <artifactId>arbitrage</artifactId>
     <version>1.0.0</version>
     <name>Forex Arbitrage Detector</name>
-    <description>Bellman-Ford triangular arbitrage detector with a Swing GUI, JDBC and sockets</description>
+    <description>Bellman-Ford arbitrage detector: Swing GUI, JDBC, sockets (CAP-1 to 5), Servlet/JSP portal (CAP-6), Spring Boot JPA + REST (CAP-7)</description>
 
     <properties>
         <java.version>17</java.version>
@@ -29,6 +29,38 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- CAP-6: embedded Tomcat runs our Servlets, Filters and Listeners -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- CAP-6: the JSP compiler (Jasper) and JSTL tags for the JSP views -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+        </dependency>
+
+        <!-- CAP-7: Hibernate / JPA entities and Spring Data repositories -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- CAP-7: Bean Validation (@NotBlank, @Pattern, ...) for REST input -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <!-- MySQL JDBC driver, only needed when the program runs -->
@@ -51,6 +83,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- lets Mockito create mocks on JDKs newer than its bytecode library knows (e.g. JDK 26) -->
+                    <argLine>-Dnet.bytebuddy.experimental=true</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -6,6 +6,7 @@ import com.arbitrage.ui.UiServices;
 import com.arbitrage.ui.theme.Theme;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -17,6 +18,7 @@ import javax.swing.SwingUtilities;
  */
 @SpringBootApplication
 @EnableScheduling
+@ServletComponentScan        // CAP-6: registers our @WebServlet, @WebFilter and @WebListener classes with Tomcat
 public class ArbitrageApplication {
 
     public static void main(String[] args) {

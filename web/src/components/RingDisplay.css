@@ -1,0 +1,145 @@
+.netmap {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  user-select: none;
+}
+
+.nm-pair {
+  stroke: #e1e5eb;
+  stroke-width: 2;
+}
+
+.nm-source line {
+  stroke: var(--blue);
+  stroke-width: 2;
+  stroke-dasharray: 6 8;
+  opacity: 0.55;
+}
+.nm-source circle {
+  fill: var(--blue);
+}
+.nm-source text {
+  fill: var(--blue);
+  font-family: var(--ui);
+  font-weight: 600;
+}
+
+.nm-ghost {
+  stroke: var(--blue);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 10 10;
+}
+
+.nm-loop {
+  stroke: var(--blue);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: nm-draw 650ms var(--ease-out) forwards;
+}
+.nm-chevron {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  animation: nm-fade 300ms var(--ease-out) forwards;
+}
+.nm-hit {
+  stroke: transparent;
+  stroke-width: 44;
+  cursor: pointer;
+  pointer-events: stroke;
+}
+.nm-leg {
+  transition: opacity 200ms var(--ease-out);
+}
+.nm-dim {
+  opacity: 0.25;
+}
+
+.nm-station circle {
+  fill: #fff;
+  stroke: var(--ink);
+  stroke-width: 5;
+}
+.nm-station.is-loop circle {
+  stroke: var(--blue);
+  stroke-width: 7;
+}
+.nm-station.is-marked circle {
+  fill: var(--blue-soft);
+  stroke: var(--blue);
+}
+.nm-code {
+  fill: var(--ink);
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.nm-station:not(.is-loop) .nm-code {
+  fill: var(--ink-2);
+}
+.nm-dist {
+  fill: var(--blue);
+  font-family: var(--ui);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.nm-badge rect {
+  fill: #fff;
+  stroke: var(--line);
+  stroke-width: 2;
+  filter: drop-shadow(0 8px 14px rgba(14, 17, 22, 0.12));
+}
+.nm-badge {
+  animation: nm-fade 400ms var(--ease-out) 0.5s both;
+}
+.nm-badge-small {
+  fill: var(--ink-3);
+  font-family: var(--ui);
+  font-weight: 500;
+}
+.nm-badge-big {
+  fill: var(--green-ink);
+  font-family: var(--display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.nm-badge-loss {
+  fill: var(--ink-2);
+}
+
+.nm-empty {
+  fill: var(--ink-3);
+  font-family: var(--ui);
+}
+
+@keyframes nm-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes nm-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nm-loop {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+  .nm-chevron,
+  .nm-badge {
+    opacity: 1;
+    animation: none;
+  }
+}
