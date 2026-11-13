@@ -1,7 +1,10 @@
-import { useEffect } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { CommandPalette } from "../../components/CommandPalette";
 import { Icon, type IconName } from "../../components/Icon";
 import { Toaster } from "../../components/Toaster";
+import { Tour } from "../../components/Tour";
+import { load, save } from "../../store/storage";
 import { Wordmark } from "../../components/Wordmark";
 import { market, useMarket } from "../../store/market";
 import "./desk.css";
@@ -9,6 +12,7 @@ import "./desk.css";
 const NAV: { to: string; label: string; icon: IconName; end?: boolean }[] = [
   { to: "/desk", label: "Live", icon: "overview", end: true },
   { to: "/desk/send", label: "Send money", icon: "send" },
+  { to: "/desk/game", label: "Beat the algorithm", icon: "game" },
   { to: "/desk/events", label: "Events", icon: "events" },
   { to: "/desk/replay", label: "Replay", icon: "replay" },
   { to: "/desk/detector", label: "Currencies", icon: "detector" },
@@ -20,6 +24,15 @@ const NAV: { to: string; label: string; icon: IconName; end?: boolean }[] = [
 /** The desk shell: sidebar and top strip stay put; only the main area changes. */
 export function DeskLayout() {
   const s = useMarket((st) => st);
+  const location = useLocation();
+  const [touring, setTouring] = useState(false);
+  const [toured, setToured] = useState(() => load<boolean>("toured", false));
+  const startTour = () => setTouring(true);
+  const endTour = () => {
+    setTouring(false);
+    setToured(true);
+    save("toured", true);
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -76,6 +89,17 @@ export function DeskLayout() {
         </span>
         <button
           type="button"
+          className="btn btn-sm btn-quiet hide-sm"
+          onClick={() => window.dispatchEvent(new Event("open-palette"))}
+          title="Command palette (Ctrl+K)"
+        >
+          Search <kbd>Ctrl K</kbd>
+        </button>
+        <button type="button" className={`btn btn-sm ${toured ? "btn-quiet" : "tour-invite"}`} onClick={startTour}>
+          Tour
+        </button>
+        <button
+          type="button"
           className="btn btn-sm"
           onClick={() => void market.togglePause()}
           disabled={javaDown}
@@ -88,9 +112,14 @@ export function DeskLayout() {
       </header>
 
       <main className="desk-main">
-        <Outlet />
+        {/* the key makes each screen play its entrance when you switch to it */}
+        <div className="page-enter" key={location.pathname}>
+          <Outlet />
+        </div>
       </main>
       <Toaster />
+      <CommandPalette onTour={startTour} />
+      <Tour open={touring} onClose={endTour} />
     </div>
   );
 }

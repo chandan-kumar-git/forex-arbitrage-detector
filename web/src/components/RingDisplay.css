@@ -116,6 +116,56 @@
   fill: var(--ink-2);
 }
 
+/* a ring that spreads out from each loop station when a new loop lands */
+.nm-station circle.nm-ripple {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nm-ripple 1400ms var(--ease-out) both;
+  pointer-events: none;
+}
+/* game: big invisible hit area, a soft ring on hover, the player's own path */
+.nm-station circle.nm-target {
+  fill: transparent;
+  stroke: none;
+}
+.nm-station.is-clickable {
+  cursor: pointer;
+}
+.nm-station.is-clickable:hover circle:not(.nm-target):not(.nm-ripple) {
+  stroke: var(--blue);
+  fill: var(--blue-soft);
+}
+.nm-station.is-user circle:not(.nm-target):not(.nm-ripple) {
+  stroke: var(--ink);
+  fill: #fff4d6;
+  stroke-width: 7;
+}
+.nm-user {
+  stroke: var(--ink);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 2 16;
+  animation: nm-march 900ms linear infinite;
+}
+@keyframes nm-ripple {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+@keyframes nm-march {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
 .nm-empty {
   fill: var(--ink-3);
   font-family: var(--ui);

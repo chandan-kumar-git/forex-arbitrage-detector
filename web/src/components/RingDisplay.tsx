@@ -33,6 +33,10 @@ interface Props {
   marked?: number[];
   /** Changes when a new loop lands, to replay the draw-on. */
   eventKey?: string | number;
+  /** Game: clicking a station calls this with its index. */
+  onStationClick?: (index: number) => void;
+  /** Game: the loop the player is drawing, as station indexes. */
+  userPath?: number[];
   title?: string;
 }
 
@@ -68,6 +72,8 @@ export function RingDisplay({
   marked,
   eventKey,
   title = "Currency network",
+  onStationClick,
+  userPath,
 }: Props) {
   const narrow = useNarrow();
   const codes = snapshot?.codes ?? [];
@@ -176,6 +182,14 @@ export function RingDisplay({
         />
       ))}
 
+      {/* the player's own loop (game) */}
+      {userPath && userPath.length > 1
+        ? userPath.slice(0, -1).map((from, k) => {
+            const to = userPath[k + 1];
+            return <line key={`u-${k}`} x1={pos[from][0]} y1={pos[from][1]} x2={pos[to][0]} y2={pos[to][1]} className="nm-user" />;
+          })
+        : null}
+
       {/* the loop */}
       <g key={`loop-${eventKey ?? ""}`}>
         {loop.map((l) => {
@@ -223,7 +237,13 @@ export function RingDisplay({
         const ly = y + Math.sin(a) * out;
         const anchor = Math.abs(Math.cos(a)) < 0.3 ? "middle" : Math.cos(a) > 0 ? "start" : "end";
         return (
-          <g key={codes[i]} className={`nm-station ${inLoop ? "is-loop" : ""} ${isMarked ? "is-marked" : ""}`}>
+          <g
+            key={codes[i]}
+            className={`nm-station ${inLoop ? "is-loop" : ""} ${isMarked ? "is-marked" : ""} ${userPath?.includes(i) ? "is-user" : ""} ${onStationClick ? "is-clickable" : ""}`}
+            onClick={onStationClick ? () => onStationClick(i) : undefined}
+          >
+            {inLoop ? <circle key={`rip-${eventKey ?? ""}`} cx={x} cy={y} r={stationR} className="nm-ripple" /> : null}
+            {onStationClick ? <circle cx={x} cy={y} r={stationR + 34} className="nm-target" /> : null}
             <circle cx={x} cy={y} r={stationR} />
             <text x={lx} y={ly + label / 3} textAnchor={anchor} className="nm-code" style={{ fontSize: label }}>
               {codes[i]}

@@ -61,6 +61,15 @@ While the desktop app runs, the same Spring Boot program also starts an embedded
 an interactive transfer calculator, and a desk with Live, **Send money**, Events, Replay (Bellman-Ford step by
 step), Currencies, Lab, Analysis and Settings (with profit alerts and browser notifications).
 
+Interactive extras in the desk:
+
+- **Time machine** (Live page): the last 3 minutes of the market as a bar strip. Click or drag to rewind the map to any tick, or replay the last minute at 4× speed.
+- **Beat the algorithm** (`/desk/game`): a market with one hidden profitable loop. Tap stations to draw a loop before the 20-second timer runs out, then compare with what Bellman-Ford found. Score, streak and best score are kept.
+- **Command palette**: press `Ctrl+K` (or `/`) to jump to any page or action.
+- **Guided tour**: the Tour button walks a first-time visitor through the desk with a spotlight.
+- **Share card**: download the latest loop as a PNG image.
+- **Alert chime**: a soft sound when a profit alert fires (Settings).
+
 It runs entirely in the browser, so it deploys to Vercel as static files (`vercel.json` at the repo root is
 ready: import the repository in Vercel and deploy, no settings needed).
 

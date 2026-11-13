@@ -63,7 +63,9 @@ GET    /api/v1/route?from=INR&to=JPY&amount=50000
 ## Real-life use
 
 - **Send money the cheapest way** (`cap7/service/RouteService`, portal `/portal/route`, web `/desk/send`). Banks quote rare pairs with wide spreads, so INR → USD → JPY often beats INR → JPY directly. The planner runs the same shortest-path idea as Bellman-Ford on −log(rate) and shows the saving.
-- **Profit alerts** (`AlertService`, portal Alerts page, web Settings): set a level once and get told when a loop reaches it.
+- **Profit alerts** (`AlertService`, portal Alerts page, web Settings): set a level once and get told when a loop reaches it, with an optional chime.
+- **Time machine** (web Live page): rewind the last 3 minutes of the market and see exactly when a loop opened and closed.
+- **Beat the algorithm** (web `/desk/game`): the user tries to find the profitable loop by hand in 20 seconds; the detector does it in microseconds. A good way to show the faculty why the algorithm matters.
 
 ## Demo order (about 10 minutes)
 

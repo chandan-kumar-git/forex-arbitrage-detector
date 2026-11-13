@@ -3,6 +3,7 @@ import { Landing } from "./pages/Landing";
 import { DeskLayout } from "./pages/desk/DeskLayout";
 import { Overview } from "./pages/desk/Overview";
 import { SendMoney } from "./pages/desk/SendMoney";
+import { Game } from "./pages/desk/Game";
 import { Events } from "./pages/desk/Events";
 import { Replay } from "./pages/desk/Replay";
 import { Detector } from "./pages/desk/Detector";
@@ -18,6 +19,7 @@ export function App() {
         <Route path="/desk" element={<DeskLayout />}>
           <Route index element={<Overview />} />
           <Route path="send" element={<SendMoney />} />
+          <Route path="game" element={<Game />} />
           <Route path="events" element={<Events />} />
           <Route path="replay" element={<Replay />} />
           <Route path="replay/:id" element={<Replay />} />

@@ -16,6 +16,7 @@ import { load, remove, save } from "./storage";
 const HISTORY_LIMIT = 500;
 const RECENT_LIMIT = 40;
 const TIMING_WINDOW = 60;
+const TIMELINE_LIMIT = 180;
 
 export type JavaStatus = "off" | "connecting" | "online" | "offline";
 
@@ -49,6 +50,15 @@ export interface MarketState {
   avgMicros: number;
   lastMicros: number;
   startedAt: number;
+  /** The last 180 ticks (about 3 minutes) for the Time Machine. */
+  timeline: TimelinePoint[];
+}
+
+export interface TimelinePoint {
+  ts: number;
+  snapshot: Snapshot;
+  eventId: number | null;
+  profit: number;
 }
 
 interface JavaState extends JavaInfo {
@@ -94,6 +104,7 @@ class Market {
       avgMicros: 0,
       lastMicros: 0,
       startedAt: Date.now(),
+      timeline: [],
     };
   }
 
@@ -169,6 +180,9 @@ class Market {
       save("nextId", this.nextId);
       alerts.check(event);
     }
+    const newEvent = patch.recent ? patch.recent[0] : null;
+    const point: TimelinePoint = { ts: snapshot.timestamp, snapshot, eventId: newEvent?.id ?? null, profit: newEvent?.profitPercent ?? 0 };
+    patch.timeline = [...this.state.timeline, point].slice(-TIMELINE_LIMIT);
     this.set(patch);
   }
 

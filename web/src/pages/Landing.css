@@ -186,6 +186,103 @@
   }
 }
 
+/* five features as stops on one line */
+.feature-line {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.feature-line::before {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 20px;
+  right: 20px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--blue);
+}
+.feature-line li {
+  animation: lp-pop 600ms var(--ease-out) both;
+}
+.feature-stop {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  align-content: start;
+  gap: 8px;
+  height: 100%;
+  padding: 10px 12px 16px;
+  border-radius: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 200ms, transform 250ms var(--ease-out);
+}
+.feature-stop:hover {
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+  color: var(--ink);
+}
+.feature-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 7px solid var(--blue);
+  background: #fff;
+  transition: transform 250ms var(--ease-out);
+}
+.feature-stop:hover .feature-dot {
+  transform: scale(1.15);
+}
+.feature-stop strong {
+  font-family: var(--display);
+  font-size: 19px;
+}
+.feature-stop > span:not(.feature-dot):not(.feature-go) {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+.feature-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+}
+@media (max-width: 1000px) {
+  .feature-line {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding-left: 0;
+  }
+  .feature-line::before {
+    top: 16px;
+    bottom: 16px;
+    left: 27px;
+    right: auto;
+    width: 6px;
+    height: auto;
+  }
+  .feature-stop {
+    grid-template-rows: none;
+    grid-template-columns: 32px minmax(0, 1fr);
+    column-gap: 14px;
+  }
+  .feature-stop > *:not(.feature-dot) {
+    grid-column: 2;
+  }
+  .feature-dot {
+    grid-row: 1 / span 4;
+  }
+}
+
 /* hero entrance: copy and map rise in, staggered */
 .hero-copy > * {
   animation: lp-pop 700ms var(--ease-out) both;

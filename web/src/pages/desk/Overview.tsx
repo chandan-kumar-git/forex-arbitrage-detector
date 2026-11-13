@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { Icon } from "../../components/Icon";
 import { LegTable } from "../../components/LegTable";
 import { RingDisplay } from "../../components/RingDisplay";
+import { TimeMachine } from "../../components/TimeMachine";
+import { useCountUp } from "../../lib/motion";
+import { downloadShareCard } from "../../lib/shareCard";
 import type { ArbEvent } from "../../engine/types";
 import { clock, eventId, micros, pathText, pct, percentOf } from "../../lib/format";
 import { market, useMarket } from "../../store/market";
@@ -17,10 +20,20 @@ export function Overview() {
   const pinned = pinnedId !== null ? (market.findEvent(pinnedId) ?? null) : null;
   const focus: ArbEvent | null = pinned ?? latest;
 
+  // Time Machine: remember the viewed tick by its time, so it stays put while new ticks arrive
+  const [rewindTs, setRewindTs] = useState<number | null>(null);
+  const rewindIndex = rewindTs === null ? -1 : s.timeline.findIndex((t) => t.ts === rewindTs);
+  const point = rewindIndex >= 0 ? s.timeline[rewindIndex] : null;
+  const rewound = point ? (point.eventId !== null ? (market.findEvent(point.eventId) ?? null) : null) : undefined;
+  const mapEvent = rewound === undefined ? focus : rewound;
+  const mapSnapshot = point ? point.snapshot : (focus?.snapshot ?? s.snapshot);
+  const profitShown = useCountUp(focus?.profitPercent ?? 0);
+
   useEffect(() => setSelectedLeg(null), [focus?.id]);
 
   return (
     <div className="overview">
+      <div className="stack">
       <section className="panel display-panel" aria-labelledby="display-title">
         <div className="panel-head">
           <h2 id="display-title">{pinned ? `Loop ${eventId(pinned.id)}` : "Live market"}</h2>
@@ -32,15 +45,27 @@ export function Overview() {
           ) : null}
         </div>
         <RingDisplay
-          snapshot={focus?.snapshot ?? s.snapshot}
-          cycle={focus?.cycle}
-          legs={focus?.legs}
+          snapshot={mapSnapshot}
+          cycle={mapEvent?.cycle}
+          legs={mapEvent?.legs}
           selectedLeg={selectedLeg}
           onSelectLeg={setSelectedLeg}
-          eventKey={focus?.id}
+          eventKey={mapEvent?.id ?? point?.ts}
         />
-        <p className="display-hint">The blue line is the loop. Tap a line or a row to see that trade.</p>
+        <p className="display-hint">
+          {point ? (rewound ? "A loop was found at this moment." : "No loop at this moment: the market was fair.") : "The blue line is the loop. Tap a line or a row to see that trade."}
+        </p>
       </section>
+      <TimeMachine
+        timeline={s.timeline}
+        index={rewindIndex >= 0 ? rewindIndex : null}
+        onChange={(i) => {
+          setRewindTs(i === null ? null : s.timeline[i].ts);
+          const id = i === null ? null : s.timeline[i].eventId;
+          if (id !== null) setPinnedId(id);
+        }}
+      />
+      </div>
 
       <div className="side-stack">
         <section className="panel" aria-labelledby="focus-title">
@@ -50,7 +75,7 @@ export function Overview() {
           {focus ? (
             <>
               <div className="event-meta">
-                <span className="event-profit">{pct(focus.profitPercent)}</span>
+                <span className="event-profit">{pct(profitShown)}</span>
                 <span className="event-path">{pathText(focus.path)}</span>
                 <span className="event-sub">
                   {eventId(focus.id)} · {clock(focus.detectedAt)} · fee {percentOf(focus.fee)} per trade
@@ -62,6 +87,10 @@ export function Overview() {
                   <Icon name="replay" size={16} />
                   Replay how it was found
                 </Link>
+                <button type="button" className="btn btn-sm" onClick={() => downloadShareCard(focus)}>
+                  <Icon name="download" size={16} />
+                  Share card
+                </button>
               </div>
             </>
           ) : (

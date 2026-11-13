@@ -1,0 +1,75 @@
+.tour {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+.tour-click {
+  position: absolute;
+  inset: 0;
+}
+.tour-spot {
+  position: fixed;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 3px var(--blue),
+    0 0 0 9999px rgba(14, 17, 22, 0.55);
+  pointer-events: none;
+  transition:
+    top 450ms var(--ease-out),
+    left 450ms var(--ease-out),
+    width 450ms var(--ease-out),
+    height 450ms var(--ease-out);
+}
+.tour-card {
+  position: fixed;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 24px 60px -18px rgba(14, 17, 22, 0.5);
+  animation: tour-in 380ms var(--ease-out) both;
+}
+.tour-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+}
+.tour-card h3 {
+  margin: 4px 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+}
+.tour-card p {
+  color: var(--ink-2);
+}
+.tour-dots {
+  display: flex;
+  gap: 5px;
+  margin: 14px 0;
+}
+.tour-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition: background-color 200ms, transform 200ms;
+}
+.tour-dots span.on {
+  background: var(--blue);
+  transform: scale(1.4);
+}
+.tour-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tour-actions .spacer {
+  flex: 1;
+}
+@keyframes tour-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

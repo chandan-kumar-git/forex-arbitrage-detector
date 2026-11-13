@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DEFAULT_SETTINGS, type MarketSettings } from "../../engine/types";
 import { percentOf } from "../../lib/format";
-import { useAlerts } from "../../store/alerts";
+import { chime, useAlerts } from "../../store/alerts";
 import { market, useMarket } from "../../store/market";
 
 /** Profit alerts: a toast in the desk, and a browser notification when the tab is in the background. */
@@ -44,6 +44,17 @@ function AlertsPanel() {
             Also notify me when this tab is in the background
           </label>
         ) : null}
+        <label className="confirm-row">
+          <input
+            type="checkbox"
+            checked={p.sound}
+            onChange={(e) => {
+              a.setPrefs({ sound: e.target.checked });
+              if (e.target.checked) chime();
+            }}
+          />
+          Play a soft chime
+        </label>
         <p className="field-help">Like a trader's price alert: you do not have to watch the screen to catch a good loop.</p>
       </div>
     </section>

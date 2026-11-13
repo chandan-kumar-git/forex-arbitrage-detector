@@ -89,6 +89,9 @@ export function Landing() {
 
         <RealLife />
         <Reveal>
+          <Features />
+        </Reveal>
+        <Reveal>
           <HowItWorks />
         </Reveal>
         <Reveal>
@@ -119,6 +122,40 @@ export function Landing() {
         <p>Built by Chandan Kumar for the Advanced Java course. Rates are simulated; this is not financial advice.</p>
       </footer>
     </div>
+  );
+}
+
+const FEATURES = [
+  { to: "/desk/send", title: "Send money", text: "The cheapest route between two currencies, and how much it saves." },
+  { to: "/desk/game", title: "Beat the algorithm", text: "Find the hidden loop yourself before the 20-second timer runs out." },
+  { to: "/desk", title: "Time machine", text: "Rewind the last 3 minutes of the market, or replay them at 4× speed." },
+  { to: "/desk/settings", title: "Profit alerts", text: "A toast, a chime or a browser notification when a loop is worth it." },
+  { to: "/desk/replay", title: "Step-by-step replay", text: "Watch Bellman-Ford find a loop, round by round." },
+];
+
+/** What you can do, drawn as one line with a stop per feature. */
+function Features() {
+  return (
+    <section id="features" className="section" aria-labelledby="features-title">
+      <div className="section-head">
+        <h2 id="features-title">Five things to try</h2>
+        <p>Each stop opens straight into the live desk. Press Ctrl+K there to jump anywhere.</p>
+      </div>
+      <ol className="feature-line">
+        {FEATURES.map((f, i) => (
+          <li key={f.title} style={{ animationDelay: `${i * 90}ms` }}>
+            <Link to={f.to} className="feature-stop">
+              <span className="feature-dot" aria-hidden="true" />
+              <strong>{f.title}</strong>
+              <span>{f.text}</span>
+              <span className="feature-go">
+                Open <Icon name="arrow" size={14} />
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 

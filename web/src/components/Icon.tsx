@@ -85,6 +85,15 @@ const paths: Record<string, JSX.Element> = {
     </>
   ),
   close: <path d="M6 6l12 12M18 6 6 18" />,
+  game: (
+    <>
+      <path d="M12 3 20.5 17.5H3.5Z" />
+      <circle cx="12" cy="3" r="1.8" fill="currentColor" />
+      <circle cx="20.5" cy="17.5" r="1.8" fill="currentColor" />
+      <circle cx="3.5" cy="17.5" r="1.8" fill="currentColor" />
+      <path d="M12 9v4M12 15.5v.5" />
+    </>
+  ),
 };
 
 export type IconName = keyof typeof paths;

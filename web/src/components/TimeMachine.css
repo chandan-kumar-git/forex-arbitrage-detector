@@ -1,0 +1,50 @@
+.tm .panel-head {
+  flex-wrap: wrap;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.tm-body {
+  padding: 16px 20px 14px;
+}
+.tm-bars {
+  display: block;
+  width: 100%;
+  height: 72px;
+  cursor: ew-resize;
+  touch-action: none;
+  border-radius: 8px;
+  background: var(--bg);
+}
+.tm-bars:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+.tm-tick {
+  fill: var(--line-strong);
+}
+.tm-loop {
+  fill: var(--blue);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: tm-grow 500ms var(--ease-out) both;
+}
+.tm-cursor {
+  fill: rgba(14, 17, 22, 0.14);
+}
+.tm-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.tm-foot strong {
+  color: var(--ink);
+}
+@keyframes tm-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
